@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import MyPage from "../views/MyPage.vue";
+
 const routes = [
   {
     path: "/",
@@ -12,8 +13,9 @@ const routes = [
     path: "/index",
     name: "MyPage",
     component: MyPage,
-  }
-  
+  },
+
+
 ];
 
 const router = createRouter({

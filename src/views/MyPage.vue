@@ -1,10 +1,8 @@
 <template>
     <div id="main">
-        <Title v-show="this.show_title" :title="this.title"/>
-        <Button @title-check="titleCheck" :btn_text="this.btn_text"/>
-        <Button :btn_text="this.btn_text2"/> 
-        <router-link to="/" ><button class="btn">d</button></router-link>
-        <AllStuff :data="this.all_data" @delete-row="deleteRow"/>
+        <Title v-if="this.show_title" :title="this.title" @add="addNew"/>
+        <Button @title-check="titleCheck" :btn_text="this.btn_text" :btn_color="this.btn_color"/>
+        <AllStuff :data="this.all_data" @delete-row="deleteRow" @change-row="changeRow"/>
     </div>
 </template>
 
@@ -27,32 +25,61 @@ export default {
 
     data() {
         return {
-            title : 'Moj Vue App',
-            btn_text: 'Show',
-            btn_text2: 'Add',
+            title : 'Unesi podatke',
+            btn_text: 'Sakriji',
+            btn_color: 'btn btn-success',
             show_title: false,
             all_data : '',
         }
     },
 
+
     methods: {
         titleCheck(){
             this.show_title = !this.show_title;
+
+            if(this.btn_text === 'Prikaži'){
+                this.btn_text = 'Sakriji';
+                this.btn_color = 'btn btn-danger';
+            }else{
+                this.btn_text = 'Prikaži';
+                this.btn_color = 'btn btn-success';
+            }
         },
 
         database(){
             return AllData;
         },
 
+        addNew(data) {
+            this.all_data = [...this.all_data, data]
+        },
+
+
         deleteRow(selectedRowId) {
-            console.log(selectedRowId + ' zadnji level');
+
+            for(let i = 0; i < this.all_data.length; i++){
+                if(this.all_data[i].id == selectedRowId){
+                    console.log(this.all_data[i].first_name)
+                    this.all_data.splice(i , 1)
+                }
+            }
+        },
+
+        changeRow(dataForChangeRow) {
+            
+            for(let i = 0; i < this.all_data.length; i++){
+                if(this.all_data[i].id == dataForChangeRow.id){
+                    this.all_data[i].first_name = dataForChangeRow.first_name;
+                    this.all_data[i].message = dataForChangeRow.message;
+                }
+            }
         }
 
     },
 
     created() {
         this.all_data = this.database();
-        
     },
 
 }

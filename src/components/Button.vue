@@ -1,6 +1,6 @@
 <template>
     <button @click="titleFunction"
-    class="btn btn-danger" >{{btn_text}}</button>
+    :class="{btn_color}" >{{btn_text}}</button>
 </template>
 
 <script>
@@ -8,6 +8,13 @@ export default {
     name: 'Button',
     props: {
         btn_text : String,
+        btn_color : String,
+    },
+
+    data() {
+        return {
+            btn: ' btn-danger'
+        }
     },
 
     methods: {
